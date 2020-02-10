@@ -54,13 +54,13 @@ Below are a few screenshots of the web app.
 
 ### Libraries used on this project
 
-json
-plotly
-flask
-nltk
-pandas
-sklearn
-sqlalchemy
-sys
-re
-pickle
+- json
+- plotly
+- flask
+- nltk
+- pandas
+- sklearn
+- sqlalchemy
+- sys
+- re
+- pickle
