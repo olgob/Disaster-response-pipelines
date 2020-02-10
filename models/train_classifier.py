@@ -14,9 +14,10 @@ import pickle
 import sys
 
 import re
-# nltk.download('punkt')
-# nltk.download('stopwords')
-# nltk.download('wordnet')  # download for lemmatization
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')  # download for lemmatization
 
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -45,6 +46,7 @@ def load_data(database_filepath):
 
     """
     engine = create_engine('sqlite:///' + database_filepath)  # DisasterResponse.db
+    print(engine.table_names())
     table_name = engine.table_names()[0]
     df = pd.read_sql_table(table_name, con=engine)
     x = df['message'].values
@@ -107,11 +109,15 @@ def build_model():
         ('moclf', MultiOutputClassifier(RandomForestClassifier(n_estimators=10)))
     ])
 
+    # Optimize the hyperparameters using gridsearch
     parameters = {
         'moclf__estimator__n_estimators': [10, 100]
+        # 'moclf__estimator__min_samples_leaf': [1, 2, 4],
+        # 'moclf__estimator__min_samples_split': [2, 5, 10],
+        # 'moclf__estimator__max_depth': [10, 100, None]
     }
 
-    cv = GridSearchCV(model, param_grid=parameters, n_jobs=1, cv=3, verbose=7)
+    cv = GridSearchCV(model, param_grid=parameters, n_jobs=-1, cv=3, verbose=10)
 
     return cv
 
