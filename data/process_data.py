@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 from sqlalchemy import create_engine
 
+
 def load_data(messages_filepath, categories_filepath):
     """ Load the data from 2 datasets.
 
@@ -43,8 +44,8 @@ def clean_data(df):
     # use the first row of categories dataframe to create column names for the categories data.
     row = categories.transpose()[0]
     category_colnames = row.apply(lambda string: string[:-2]).values  # apply a lambda function that takes everything up
-                                                                      # to the second to last character of each string
-                                                                      # with slicing.
+    # to the second to last character of each string
+    # with slicing.
 
     # rename columns of categories with new column names.
     categories.columns = category_colnames
@@ -64,6 +65,7 @@ def clean_data(df):
     df.drop_duplicates(subset=['id'], keep='first', inplace=True)
 
     return df
+
 
 def save_data(df, database_filename):
     """ Save the clean dataset into an sqlite database.
